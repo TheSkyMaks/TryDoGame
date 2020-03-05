@@ -37,7 +37,6 @@ namespace GameForWarDrago
 
                 while (true)
                 {
-                    //Console.WriteLine("Press any key...");
                     do
                     {
                         while (!Console.KeyAvailable)
