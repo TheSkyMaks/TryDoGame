@@ -1,7 +1,6 @@
 ﻿/*
- * 1. Добавить ходьбу персонажем
- * 2. Добавить меню
- * 3. Убрать мигание (возможное решение через функцию курсора и величину консоли)
+ * 1. Добавить меню
+ * 2. Убрать мигание (возможное решение через функцию курсора и величину консоли)
  */
 using System;
 using System.Threading;
@@ -34,6 +33,8 @@ namespace GameForWarDrago
                 int oMove_X = rnd.Next(1, Max_X - 2);
                 int Move_Y = 1;
                 int pMove_X = Max_X / 2 - 5;
+                int VTime = 2310;
+                ConsoleKeyInfo PlayerPosX;
 
                 while (true)
                 {
@@ -46,7 +47,6 @@ namespace GameForWarDrago
                             ObjectsMove(BackgroundOfScreen, Move_Y, oMove_X);
                             GameScreen(Max_X, Max_Y, BackgroundOfScreen);
                             StatsOfPlayer(HP, level, NowBoxes, NeedToNextLvLBoxes);
-                            pMove_X = PlayerPositionX(pMove_X, Max_X);
 
                             if (Move_Y > Max_Y - 7)
                             {
@@ -81,18 +81,19 @@ namespace GameForWarDrago
                                 }
                             }
                             Move_Y++;
-                            Thread.Sleep(40);
+                            Thread.Sleep(VTime / (level + 1));
                         }
                         if (HP < 1)
                         {
                             break;
                         }
-                    } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+                        PlayerPosX = Console.ReadKey(true);
+                        pMove_X = PlayerPositionX(pMove_X, Max_X, PlayerPosX);
+                    } while (PlayerPosX.Key != ConsoleKey.Enter && PlayerPosX.Key != ConsoleKey.Escape);
                     if (HP < 1)
                     {
                         break;
                     }
-                    Thread.Sleep(2310 / (level + 1));
                 }
                 EndGame(HP);
             }
@@ -181,19 +182,17 @@ namespace GameForWarDrago
         static void ObjectsMove(string[,] BackgroundOfScreen, int Move_Y, int oMove_X)
         {
             BackgroundOfScreen[Move_Y, oMove_X + 1] = "@@"; BackgroundOfScreen[Move_Y - 1, oMove_X + 1] = "@@";
-            if (Move_Y > 1)
-            {
-                BackgroundOfScreen[Move_Y - 2, oMove_X + 1] = ". ";
-                if (Move_Y > 2)
-                {
-                    BackgroundOfScreen[Move_Y - 3, oMove_X + 1] = ". ";
-                }
-            }
+            //if (Move_Y > 1)
+            //{
+            //    BackgroundOfScreen[Move_Y - 2, oMove_X + 1] = ". ";
+            //    if (Move_Y > 2)
+            //    {
+            //        BackgroundOfScreen[Move_Y - 3, oMove_X + 1] = ". ";
+            //    }
+            //}
         }
-        static int PlayerPositionX(int pMove_X, int Max_X)
+        static int PlayerPositionX(int pMove_X, int Max_X, ConsoleKeyInfo PlayerPositionX)
         {
-            ConsoleKeyInfo PlayerPositionX;
-            PlayerPositionX = Console.ReadKey(true);
             switch (PlayerPositionX.Key)
             {
                 case ConsoleKey.LeftArrow:
