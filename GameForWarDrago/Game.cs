@@ -5,11 +5,11 @@ namespace GameForWarDrago
 {
     class Program
     {
-        static void Main()
+        private static void Main()
         {
             Menu(10, 30, 15, 0);
         }
-        static void Menu(int level, int Max_X, int Max_Y, int NowBoxes)
+        private static void Menu(int level, int maxX, int maxY, int nowBoxes)
         { //menu 
             while (true)
             {
@@ -24,11 +24,11 @@ namespace GameForWarDrago
                 {
                     case ConsoleKey.D1:
                         //start
-                        Game(100, NowBoxes, level, Max_X, Max_Y);
+                        Game(100, nowBoxes, level, maxX, maxY);
                         return;
                     case ConsoleKey.D2:
                         //setings
-                        GameSetings(level, Max_X, Max_Y, NowBoxes);
+                        GameSetings(level, maxX, maxY, nowBoxes);
                         return;
                     case ConsoleKey.D3:
                         //exit 
@@ -40,16 +40,14 @@ namespace GameForWarDrago
                 }
             }
         }
-        static void Game(int HP, int NowBoxes, int level, int Max_X, int Max_Y)
+        private static void Game(int hp, int nowBoxes, int level, int maxX, int maxY)
         {
-            int NeedToNextLvLBoxes = level * 10;
-            string[,] BackgroundOfScreen = new string[Max_Y, Max_X];
+            int needToNextLvLBoxes = level * 10;
+            string[,] backgroundOfScreen = new string[maxY, maxX];
             Random rnd = new Random();
-            int oMove_X = rnd.Next(1, Max_X - 2);
-            int Move_Y = 1;
-            int pMove_X = Max_X / 2 - 5;
-            int VTime = 2310;
-            ConsoleKeyInfo PlayerPosX;
+            int oMoveX = rnd.Next(1, maxX - 2);
+            int moveY = 1;
+            int pMoveX = (maxX / 2) - 5;
 
             while (true)
             {
@@ -57,63 +55,63 @@ namespace GameForWarDrago
                 {
                     while (!Console.KeyAvailable)
                     {
-                        Background(Max_X, Max_Y, BackgroundOfScreen);
-                        PlayerMove(BackgroundOfScreen, Max_Y, pMove_X);
-                        ObjectsMove(BackgroundOfScreen, Move_Y, oMove_X);
-                        GameScreen(Max_X, Max_Y, BackgroundOfScreen);
-                        StatsOfPlayer(HP, level, NowBoxes, NeedToNextLvLBoxes);
+                        Background(maxX, maxY, backgroundOfScreen);
+                        PlayerMove(backgroundOfScreen, maxY, pMoveX);
+                        ObjectsMove(backgroundOfScreen, moveY, oMoveX);
+                        GameScreen(maxX, maxY, backgroundOfScreen);
+                        StatsOfPlayer(hp, level, nowBoxes, needToNextLvLBoxes);
 
-                        if (Move_Y > Max_Y - 7)
+                        if (moveY > maxY - 7)
                         {
-                            if (oMove_X == pMove_X || oMove_X == pMove_X + 1 || oMove_X == pMove_X + 2)
+                            if (oMoveX == pMoveX || oMoveX == pMoveX + 1 || oMoveX == pMoveX + 2)
                             {
-                                BackgroundOfScreen[Move_Y - 1, oMove_X + 1] = ". ";
-                                oMove_X = rnd.Next(1, Max_X - 2);
-                                Move_Y = 1;
-                                NowBoxes++;
-                                if (NowBoxes > NeedToNextLvLBoxes)
+                                backgroundOfScreen[moveY - 1, oMoveX + 1] = ". ";
+                                oMoveX = rnd.Next(1, maxX - 2);
+                                moveY = 1;
+                                nowBoxes++;
+                                if (nowBoxes > needToNextLvLBoxes)
                                 {
                                     level++;
-                                    NeedToNextLvLBoxes = level * 10;
-                                    NowBoxes = 0;
+                                    needToNextLvLBoxes = level * 10;
+                                    nowBoxes = 0;
                                     if (level > 10)
                                     {
                                         break;
                                     }
                                 }
                             }
-                            else if (Move_Y == Max_Y - 2)
+                            else if (moveY == maxY - 2)
                             {
-                                BackgroundOfScreen[Move_Y, oMove_X + 1] = ". ";
-                                BackgroundOfScreen[Move_Y - 1, oMove_X + 1] = ". ";
-                                oMove_X = rnd.Next(1, Max_X - 2);
-                                Move_Y = 1;
-                                HP -= level;
-                                if (HP < 1)
+                                backgroundOfScreen[moveY, oMoveX + 1] = ". ";
+                                backgroundOfScreen[moveY - 1, oMoveX + 1] = ". ";
+                                oMoveX = rnd.Next(1, maxX - 2);
+                                moveY = 1;
+                                hp -= level;
+                                if (hp < 1)
                                 {
                                     break;
                                 }
                             }
                         }
-                        Move_Y++;
-                        Thread.Sleep(VTime / (level + 1));
+                        moveY++;
+                        Thread.Sleep(2310 / (level + 1));
                     }
-                    if (level > 10 || HP < 1)
+                    if (level > 10 || hp < 1)
                     {
-                        EndGame(HP, Max_X, Max_Y);
+                        EndGame(hp, maxX, maxY);
                         return;
                     }
-                    PlayerPosX = Console.ReadKey(true);
-                    if (PlayerPosX.Key == ConsoleKey.Enter || PlayerPosX.Key == ConsoleKey.Escape)
+                    ConsoleKeyInfo playerPosX = Console.ReadKey(true);
+                    if (playerPosX.Key == ConsoleKey.Enter || playerPosX.Key == ConsoleKey.Escape)
                     {
-                        Menu(level, Max_X, Max_Y, NowBoxes);
+                        Menu(level, maxX, maxY, nowBoxes);
                         return;
                     }
-                    pMove_X = PlayerPositionX(pMove_X, Max_X, PlayerPosX);
+                    pMoveX = PlayerPositionX(pMoveX, maxX, playerPosX);
                 } while (true);
             }
         }
-        static void GameSetings(int level, int Max_X, int Max_Y, int NowBoxes)
+        private static void GameSetings(int level, int maxX, int maxY, int nowBoxes)
         {
             while (true)
             {
@@ -121,8 +119,8 @@ namespace GameForWarDrago
                 Console.WriteLine(@$"
                         Choose option:
                         1. level = {level},
-                        2. Width = {Max_X},
-                        3. Height = {Max_Y},
+                        2. Width = {maxX},
+                        3. Height = {maxY},
                         4. Return to main menu
                         ");
                 switch (Console.ReadKey(true).Key)
@@ -133,47 +131,46 @@ namespace GameForWarDrago
                         break;
                     case ConsoleKey.D2:
                         Console.WriteLine("Enter new Width:");
-                        int.TryParse(Console.ReadLine(), out Max_X);
+                        int.TryParse(Console.ReadLine(), out maxX);
                         break;
                     case ConsoleKey.D3:
                         Console.WriteLine("Enter new Height:");
-                        int.TryParse(Console.ReadLine(), out Max_Y);
+                        int.TryParse(Console.ReadLine(), out maxY);
                         break;
                     case ConsoleKey.D4:
-                        Menu(level, Max_X, Max_Y, NowBoxes);
+                        Menu(level, maxX, maxY, nowBoxes);
                         return;
                     default:
                         Console.WriteLine("Enter correct number. Press Enter to continue");
                         Console.ReadLine();
                         break;
                 }
-                if (CheckSetings(Max_X, Max_Y, level))
+                if (CheckSetings(maxX, maxY, level))
                 {
                     Console.WriteLine("Press any key to continue");
                     Console.ReadLine();
-                    continue;
                 }
             }
         }
-        static bool CheckSetings(int Max_X, int Max_Y, int level)
+        private static bool CheckSetings(int maxX, int maxY, int level)
         {
             Console.WriteLine();
-            if (Max_X < 5)
+            if (maxX < 5)
             {
                 Console.WriteLine("Error 1: Enter X > 5");
                 return true;
             }
-            if (Max_X > 40)
+            if (maxX > 40)
             {
                 Console.WriteLine("Error 2: Enter X <= 40");
                 return true;
             }
-            if (Max_Y < 7)
+            if (maxY < 7)
             {
                 Console.WriteLine("Error 3: Enter Y >= 7");
                 return true;
             }
-            if (Max_Y > 20)
+            if (maxY > 20)
             {
                 Console.WriteLine("Error 4: Enter Y <= 20");
                 return true;
@@ -185,82 +182,74 @@ namespace GameForWarDrago
             }
             return false;
         }
-        static string[,] Background(int Max_X, int Max_Y, string[,] BackgroundOfScreen)
+        private static void Background(int maxX, int maxY, string[,] backgroundOfScreen)
         {
-            for (int i = 0; i < Max_Y; i++)
+            for (int i = 0; i < maxY; i++)
             {
-                for (int j = 0; j < Max_X; j++)
+                for (int j = 0; j < maxX; j++)
                 {
-                    BackgroundOfScreen[i, j] = ". ";
+                    backgroundOfScreen[i, j] = ". ";
+                    backgroundOfScreen[maxY - 1, j] = "* ";
                 }
+                backgroundOfScreen[i, 0] = "* ";
+                backgroundOfScreen[i, maxX - 1] = "* ";
             }
-            for (int i = 0; i < Max_Y; i++)
-            {
-                BackgroundOfScreen[i, 0] = "* ";
-                BackgroundOfScreen[i, Max_X - 1] = "* ";
-            }
-            for (int i = 0; i < Max_X; i++)
-            {
-                BackgroundOfScreen[Max_Y - 1, i] = "* ";
-            }
-            return BackgroundOfScreen;
         }
-        static void GameScreen(int Max_X, int Max_Y, string[,] BackgroundOfScreen)
+        private static void GameScreen(int maxX, int maxY, string[,] backgroundOfScreen)
         {//x, y
             Console.Clear();
-            for (int i = 0; i < Max_Y; i++)
+            for (int i = 0; i < maxY; i++)
             {
                 Console.Write("\n                                  ");
-                for (int j = 0; j < Max_X; j++)
+                for (int j = 0; j < maxX; j++)
                 {
-                    Console.Write(BackgroundOfScreen[i, j]);
+                    Console.Write(backgroundOfScreen[i, j]);
                 }
             }
         }
-        static void StatsOfPlayer(int HP, int level, int NowBoxes, int NeedToNextLvLBoxes)
+        private static void StatsOfPlayer(int hp, int level, int nowBoxes, int needToNextLvLBoxes)
         {
             Console.WriteLine($@"
 
-                                   O      HP - {HP}%
+                                   O      HP - {hp}%
                                   /i\     
-                                 / i \    Taken Boxes - {NowBoxes}/{NeedToNextLvLBoxes}
+                                 / i \    Taken Boxes - {nowBoxes}/{needToNextLvLBoxes}
                                   / \ 
                                  /   \    Level - {level}"
             );
         }
-        static void PlayerMove(string[,] BackgroundOfScreen, int Max_Y, int pMove_X)
+        private static void PlayerMove(string[,] backgroundOfScreen, int maxY, int pMoveX)
         {
-            BackgroundOfScreen[Max_Y - 6, pMove_X + 1] = "  "; BackgroundOfScreen[Max_Y - 6, pMove_X + 2] = "O "; BackgroundOfScreen[Max_Y - 6, pMove_X + 3] = "  ";
-            BackgroundOfScreen[Max_Y - 5, pMove_X + 1] = " /"; BackgroundOfScreen[Max_Y - 5, pMove_X + 2] = @"i\"; BackgroundOfScreen[Max_Y - 5, pMove_X + 3] = "  ";
-            BackgroundOfScreen[Max_Y - 4, pMove_X + 1] = "/ "; BackgroundOfScreen[Max_Y - 4, pMove_X + 2] = @"i "; BackgroundOfScreen[Max_Y - 4, pMove_X + 3] = @"\ ";
-            BackgroundOfScreen[Max_Y - 3, pMove_X + 1] = " /"; BackgroundOfScreen[Max_Y - 3, pMove_X + 2] = @" \"; BackgroundOfScreen[Max_Y - 3, pMove_X + 3] = "  ";
-            BackgroundOfScreen[Max_Y - 2, pMove_X + 1] = "/ "; BackgroundOfScreen[Max_Y - 2, pMove_X + 2] = "  "; BackgroundOfScreen[Max_Y - 2, pMove_X + 3] = @"\ ";
+            backgroundOfScreen[maxY - 6, pMoveX + 1] = "  "; backgroundOfScreen[maxY - 6, pMoveX + 2] = "O "; backgroundOfScreen[maxY - 6, pMoveX + 3] = "  ";
+            backgroundOfScreen[maxY - 5, pMoveX + 1] = " /"; backgroundOfScreen[maxY - 5, pMoveX + 2] = @"i\"; backgroundOfScreen[maxY - 5, pMoveX + 3] = "  ";
+            backgroundOfScreen[maxY - 4, pMoveX + 1] = "/ "; backgroundOfScreen[maxY - 4, pMoveX + 2] = @"i "; backgroundOfScreen[maxY - 4, pMoveX + 3] = @"\ ";
+            backgroundOfScreen[maxY - 3, pMoveX + 1] = " /"; backgroundOfScreen[maxY - 3, pMoveX + 2] = @" \"; backgroundOfScreen[maxY - 3, pMoveX + 3] = "  ";
+            backgroundOfScreen[maxY - 2, pMoveX + 1] = "/ "; backgroundOfScreen[maxY - 2, pMoveX + 2] = "  "; backgroundOfScreen[maxY - 2, pMoveX + 3] = @"\ ";
         }
-        static void ObjectsMove(string[,] BackgroundOfScreen, int Move_Y, int oMove_X)
+        private static void ObjectsMove(string[,] backgroundOfScreen, int moveY, int oMoveX)
         {
-            BackgroundOfScreen[Move_Y, oMove_X + 1] = "@@"; BackgroundOfScreen[Move_Y - 1, oMove_X + 1] = "@@";
+            backgroundOfScreen[moveY, oMoveX + 1] = "@@";
+            backgroundOfScreen[moveY - 1, oMoveX + 1] = "@@";
         }
-        static int PlayerPositionX(int pMove_X, int Max_X, ConsoleKeyInfo PlayerPositionX)
+        private static int PlayerPositionX(int pMoveX, int maxX, ConsoleKeyInfo playerPositionX)
         {
-            switch (PlayerPositionX.Key)
+            switch (playerPositionX.Key)
             {
                 case ConsoleKey.LeftArrow:
-                    if (pMove_X > 0)
-                        pMove_X--;
+                    if (pMoveX > 0)
+                        pMoveX--;
                     break;
                 case ConsoleKey.RightArrow:
-                    if (pMove_X < Max_X - 5)
-                        pMove_X++;
-                    break;
-                default:
+                    if (pMoveX < maxX - 5)
+                        pMoveX++;
                     break;
             }
-            return pMove_X;
+            return pMoveX;
         }
-        static void EndGame(int HP, int Max_X, int Max_Y)
+        private static void EndGame(int hp, int maxX, int maxY)
         {
             Console.Clear();
-            if (HP < 1)
+            if (hp < 1)
             {
                 Console.WriteLine("you lose :(");
             }
@@ -278,17 +267,14 @@ namespace GameForWarDrago
    ........@.......@.....@...@.....@................@...@.............@...@.........@.....@..@.......@..@..@..
    ........@........@...@.....@...@..................@.@...............@.@...........@...@...@........@.@.....
    ........@.........@@@.......@@@....................@.................@.............@@@....@.........@@..@..
-
                 ");
             }
-            Console.WriteLine("\n\n\n\nPress Enter to return to main menu ...");
-            ConsoleKeyInfo EndKey;
+            Console.WriteLine("\n\n\nPress Enter to return to main menu ...");
             while (true)
             {
-                EndKey = Console.ReadKey(true);
-                if (EndKey.Key == ConsoleKey.Enter)
+                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
-                    Menu(0, Max_X, Max_Y, 0);
+                    Menu(0, maxX, maxY, 0);
                     return;
                 }
             }
