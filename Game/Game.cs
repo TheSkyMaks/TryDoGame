@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Threading;
+
 ////////////////////////////// Убрать мигание (возможное решение через функцию курсора и величину консоли) //////////////////////////////
 namespace GameForWarDrago
 {
-    class Program
+    internal class Program
     {
         private static void Main()
         {
             Menu(10, 30, 15, 0);
         }
+
         private static void Menu(int level, int maxX, int maxY, int nowBoxes)
-        { //menu 
+        { //menu
             while (true)
             {
                 // --
                 Console.Clear();
                 Console.WriteLine(@"
-                1. Start game 
-                2. Setings                
-                3. Exit 
+                1. Start game
+                2. Setings
+                3. Exit
                 ");
                 switch (Console.ReadKey(true).Key)
                 {
@@ -26,13 +28,16 @@ namespace GameForWarDrago
                         //start
                         Game(100, nowBoxes, level, maxX, maxY);
                         return;
+
                     case ConsoleKey.D2:
                         //setings
                         GameSetings(level, maxX, maxY, nowBoxes);
                         return;
+
                     case ConsoleKey.D3:
-                        //exit 
+                        //exit
                         return;
+
                     default:
                         Console.WriteLine("Enter correct number. Press Enter to continue");
                         Console.ReadLine();
@@ -40,6 +45,7 @@ namespace GameForWarDrago
                 }
             }
         }
+
         private static void Game(int hp, int nowBoxes, int level, int maxX, int maxY)
         {
             int needToNextLvLBoxes = level * 10;
@@ -111,6 +117,7 @@ namespace GameForWarDrago
                 } while (true);
             }
         }
+
         private static void GameSetings(int level, int maxX, int maxY, int nowBoxes)
         {
             while (true)
@@ -129,17 +136,21 @@ namespace GameForWarDrago
                         Console.WriteLine("Enter new level:");
                         int.TryParse(Console.ReadLine(), out level);
                         break;
+
                     case ConsoleKey.D2:
                         Console.WriteLine("Enter new Width:");
                         int.TryParse(Console.ReadLine(), out maxX);
                         break;
+
                     case ConsoleKey.D3:
                         Console.WriteLine("Enter new Height:");
                         int.TryParse(Console.ReadLine(), out maxY);
                         break;
+
                     case ConsoleKey.D4:
                         Menu(level, maxX, maxY, nowBoxes);
                         return;
+
                     default:
                         Console.WriteLine("Enter correct number. Press Enter to continue");
                         Console.ReadLine();
@@ -152,6 +163,7 @@ namespace GameForWarDrago
                 }
             }
         }
+
         private static bool CheckSetings(int maxX, int maxY, int level)
         {
             Console.WriteLine();
@@ -182,6 +194,7 @@ namespace GameForWarDrago
             }
             return false;
         }
+
         private static void Background(int maxX, int maxY, string[,] backgroundOfScreen)
         {
             for (int i = 0; i < maxY; i++)
@@ -195,29 +208,37 @@ namespace GameForWarDrago
                 backgroundOfScreen[i, maxX - 1] = "* ";
             }
         }
-        private static void GameScreen(int maxX, int maxY, string[,] backgroundOfScreen)
+
+        private static unsafe void GameScreen(int maxX, int maxY, string[,] backgroundOfScreen)
         {//x, y
+            string[] screen = new string[maxY];
+            for (int i = 0; i < maxY; i++)
+            {
+                screen[i] += "                                  ";
+                for (int j = 0; j < maxX; j++)
+                {
+                    screen[i] += backgroundOfScreen[i, j];
+                }
+            }
             Console.Clear();
             for (int i = 0; i < maxY; i++)
             {
-                Console.Write("\n                                  ");
-                for (int j = 0; j < maxX; j++)
-                {
-                    Console.Write(backgroundOfScreen[i, j]);
-                }
+                Console.WriteLine(screen[i]);
             }
         }
-        private static void StatsOfPlayer(int hp, int level, int nowBoxes, int needToNextLvLBoxes)
+
+        private static unsafe void StatsOfPlayer(int hp, int level, int nowBoxes, int needToNextLvLBoxes)
         {
             Console.WriteLine($@"
 
                                    O      HP - {hp}%
-                                  /i\     
+                                  /i\
                                  / i \    Taken Boxes - {nowBoxes}/{needToNextLvLBoxes}
-                                  / \ 
+                                  / \
                                  /   \    Level - {level}"
             );
         }
+
         private static void PlayerMove(string[,] backgroundOfScreen, int maxY, int pMoveX)
         {
             backgroundOfScreen[maxY - 6, pMoveX + 1] = "  "; backgroundOfScreen[maxY - 6, pMoveX + 2] = "O "; backgroundOfScreen[maxY - 6, pMoveX + 3] = "  ";
@@ -226,11 +247,13 @@ namespace GameForWarDrago
             backgroundOfScreen[maxY - 3, pMoveX + 1] = " /"; backgroundOfScreen[maxY - 3, pMoveX + 2] = @" \"; backgroundOfScreen[maxY - 3, pMoveX + 3] = "  ";
             backgroundOfScreen[maxY - 2, pMoveX + 1] = "/ "; backgroundOfScreen[maxY - 2, pMoveX + 2] = "  "; backgroundOfScreen[maxY - 2, pMoveX + 3] = @"\ ";
         }
+
         private static void ObjectsMove(string[,] backgroundOfScreen, int moveY, int oMoveX)
         {
             backgroundOfScreen[moveY, oMoveX + 1] = "@@";
             backgroundOfScreen[moveY - 1, oMoveX + 1] = "@@";
         }
+
         private static int PlayerPositionX(int pMoveX, int maxX, ConsoleKeyInfo playerPositionX)
         {
             switch (playerPositionX.Key)
@@ -239,6 +262,7 @@ namespace GameForWarDrago
                     if (pMoveX > 0)
                         pMoveX--;
                     break;
+
                 case ConsoleKey.RightArrow:
                     if (pMoveX < maxX - 5)
                         pMoveX++;
@@ -246,6 +270,7 @@ namespace GameForWarDrago
             }
             return pMoveX;
         }
+
         private static void EndGame(int hp, int maxX, int maxY)
         {
             Console.Clear();
