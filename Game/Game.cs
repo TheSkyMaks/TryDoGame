@@ -209,7 +209,7 @@ namespace GameForWarDrago
             }
         }
 
-        private static unsafe void GameScreen(int maxX, int maxY, string[,] backgroundOfScreen)
+        private static void GameScreen(int maxX, int maxY, string[,] backgroundOfScreen)
         {//x, y
             string[] screen = new string[maxY];
             for (int i = 0; i < maxY; i++)
@@ -227,7 +227,7 @@ namespace GameForWarDrago
             }
         }
 
-        private static unsafe void StatsOfPlayer(int hp, int level, int nowBoxes, int needToNextLvLBoxes)
+        private static void StatsOfPlayer(int hp, int level, int nowBoxes, int needToNextLvLBoxes)
         {
             Console.WriteLine($@"
 
