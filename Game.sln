@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameForWarDrago", "GameForWarDrago\GameForWarDrago.csproj", "{DB77F4AC-2B26-41DE-ACBE-CBB998B668F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game\Game.csproj", "{A5BC4B76-996D-4D0C-AF9A-FD6DCDD85913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB77F4AC-2B26-41DE-ACBE-CBB998B668F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB77F4AC-2B26-41DE-ACBE-CBB998B668F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB77F4AC-2B26-41DE-ACBE-CBB998B668F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB77F4AC-2B26-41DE-ACBE-CBB998B668F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5BC4B76-996D-4D0C-AF9A-FD6DCDD85913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5BC4B76-996D-4D0C-AF9A-FD6DCDD85913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5BC4B76-996D-4D0C-AF9A-FD6DCDD85913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5BC4B76-996D-4D0C-AF9A-FD6DCDD85913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
